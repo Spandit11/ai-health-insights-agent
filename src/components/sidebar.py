@@ -14,4 +14,7 @@ def render_sidebar():
             ]
         )
 
+        st.divider()
+        st.caption("Version 1.0.0")
+
         return page
