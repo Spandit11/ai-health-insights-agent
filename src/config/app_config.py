@@ -1,0 +1,7 @@
+APP_NAME = "AI Health Insights Agent"
+
+APP_VERSION = "1.0.0"
+
+MAX_FILE_SIZE_MB = 20
+
+MAX_PDF_PAGES = 50

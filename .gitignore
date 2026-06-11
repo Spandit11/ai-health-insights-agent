@@ -1,0 +1,18 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+build/
+dist/
+*.egg-info/
+.env
+.DS_Store
+
+# Streamlit
+.streamlit/
+
+# Database
+public/db/
