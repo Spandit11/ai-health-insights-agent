@@ -4,12 +4,51 @@ from components.header import render_header
 from components.footer import render_footer
 from components.sidebar import render_sidebar
 
+from auth.session_manager import (
+    initialize_session,
+    logout_user
+)
+
+from components.auth_pages import (
+    render_login,
+    render_signup
+)
+
+# MUST BE THE FIRST STREAMLIT COMMAND
 st.set_page_config(
     page_title="AI Health Insights Agent",
     page_icon="🩺",
     layout="wide"
 )
 
+# Initialize session
+initialize_session()
+
+# ==========================
+# Authentication Gate
+# ==========================
+if not st.session_state.authenticated:
+
+    st.title("🩺 AI Health Insights Agent")
+
+    tab1, tab2 = st.tabs(
+        [
+            "Login",
+            "Sign Up"
+        ]
+    )
+
+    with tab1:
+        render_login()
+
+    with tab2:
+        render_signup()
+
+    st.stop()
+
+# ==========================
+# Main Application
+# ==========================
 page = render_sidebar()
 
 render_header()
@@ -17,6 +56,16 @@ render_header()
 if page == "Home":
 
     st.subheader("Welcome")
+
+    st.success(
+        f"Logged in as {st.session_state.user_email}"
+    )
+
+    if st.button("Logout"):
+
+        logout_user()
+
+        st.rerun()
 
     st.write("Upload and analyze health reports using AI.")
 
