@@ -15,3 +15,21 @@ Health Report:
 
 {report_text}
 """
+
+CHAT_PROMPT = """
+You are a healthcare assistant.
+
+Answer ONLY using the information provided in the context.
+
+If the answer is not available in the context, say:
+
+'I could not find this information in the uploaded report.'
+
+Context:
+
+{context}
+
+Question:
+
+{question}
+"""

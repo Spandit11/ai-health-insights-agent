@@ -3,6 +3,8 @@ import streamlit as st
 from utils.validators import validate_pdf
 from utils.pdf_extractor import extract_text_from_pdf
 from agents.analysis_agent import AnalysisAgent
+from services.database_service import DatabaseService
+from agents.chat_agent import ChatAgent
 
 def render_upload_page():
 
@@ -40,6 +42,19 @@ def render_upload_page():
                 st.session_state["report_text"] = (
                  extracted_text
                 )
+                if "chat_agent" not in st.session_state:
+
+                   chat_agent = ChatAgent()
+
+                chat_agent.build_knowledge_base(
+                        extracted_text
+                    )
+
+                st.session_state["chat_agent"] = chat_agent
+
+                st.success(
+                            "Report processed successfully. You can now chat with your report."
+                    )
 
             st.success(
                 "Text extracted successfully"
@@ -64,6 +79,14 @@ def render_upload_page():
                 analysis = agent.analyze(
                     st.session_state["report_text"]
                 )
+                db = DatabaseService()
+
+            db.save_analysis(
+                user_email=st.session_state.user_email,
+                file_name=uploaded_file.name,
+                report_text=st.session_state["report_text"],
+                analysis_output=analysis
+            )
 
             st.subheader(
                 "AI Health Insights"

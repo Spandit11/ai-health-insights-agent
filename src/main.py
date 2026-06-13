@@ -16,7 +16,12 @@ from components.auth_pages import (
 from components.upload_page import (
     render_upload_page
 )
-
+from components.history_page import (
+    render_history_page
+)
+from components.chat_page import (
+    render_chat_page
+)
 # MUST BE THE FIRST STREAMLIT COMMAND
 st.set_page_config(
     page_title="AI Health Insights Agent",
@@ -105,7 +110,9 @@ if page == "Home":
 
         **Phase 6** 🔄 Multi-Agent Workflow
         """)
+elif page == "Chat With Report":
 
+    render_chat_page()
 elif page == "About":
 
     st.subheader("About")
@@ -124,6 +131,8 @@ elif page == "About":
     """)
 
 elif page == "Upload Report":
-
     render_upload_page()
+
+elif page == "Analysis History":
+   render_history_page()
 render_footer()

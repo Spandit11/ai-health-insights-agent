@@ -15,6 +15,8 @@ def render_sidebar():
             [
         "Home",
         "Upload Report",
+        "Analysis History",
+        "Chat With Report",
         "About"
             ]
         )
