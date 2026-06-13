@@ -111,7 +111,6 @@ if page == "Home":
         **Phase 6** 🔄 Multi-Agent Workflow
         """)
 elif page == "Chat With Report":
-
     render_chat_page()
 elif page == "About":
 

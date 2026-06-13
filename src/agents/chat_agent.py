@@ -1,11 +1,7 @@
 from services.ai_service import AIService
-from services.vector_service import (
-    VectorService
-)
+from services.vector_service import VectorService
 
-from config.prompts import (
-    CHAT_PROMPT
-)
+from config.prompts import CHAT_PROMPT
 
 
 class ChatAgent:
@@ -30,14 +26,34 @@ class ChatAgent:
         question
     ):
 
-        chunks = (
+        search_result = (
             self.vector_service.search(
                 question
             )
         )
 
+        retrieved_chunks = (
+            search_result["results"]
+        )
+
+        score = (
+            search_result["score"]
+        )
+
+        # Confidence Threshold
+        if score > 2.0:
+
+            return {
+                "answer":
+                "I could not find this information in the uploaded report.",
+                "sources": []
+            }
+
         context = "\n\n".join(
-            chunks
+            [
+                chunk["content"]
+                for chunk in retrieved_chunks
+            ]
         )
 
         prompt = CHAT_PROMPT.format(
@@ -45,6 +61,16 @@ class ChatAgent:
             question=question
         )
 
-        return self.ai_service.generate_response(
-            prompt
+        answer = (
+            self.ai_service.generate_response(
+                prompt
+            )
         )
+
+        return {
+            "answer": answer,
+            "sources": [
+                chunk["chunk_id"]
+                for chunk in retrieved_chunks
+            ]
+        }

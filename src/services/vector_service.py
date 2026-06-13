@@ -100,7 +100,15 @@ class VectorService:
             if idx < len(self.chunks):
 
                 results.append(
-                    self.chunks[idx]
+                    {
+                        "chunk_id": int(idx),
+                        "content": self.chunks[idx]
+                    }
                 )
 
-        return results
+                return {
+            "results": results,
+            "score": float(
+                distances[0][0]
+            )
+}
