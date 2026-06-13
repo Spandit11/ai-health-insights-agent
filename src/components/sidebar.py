@@ -13,8 +13,9 @@ def render_sidebar():
         page = st.radio(
             "Select",
             [
-                "Home",
-                "About"
+        "Home",
+        "Upload Report",
+        "About"
             ]
         )
 

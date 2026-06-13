@@ -13,6 +13,9 @@ from components.auth_pages import (
     render_login,
     render_signup
 )
+from components.upload_page import (
+    render_upload_page
+)
 
 # MUST BE THE FIRST STREAMLIT COMMAND
 st.set_page_config(
@@ -120,4 +123,7 @@ elif page == "About":
     - Agentic AI
     """)
 
+elif page == "Upload Report":
+
+    render_upload_page()
 render_footer()
