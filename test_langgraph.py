@@ -36,3 +36,8 @@ print("\n=== RISKS ===\n")
 print(
 result["risk_assessment"]
 )
+print("\n=== METRICS ===\n")
+print(
+result["metrics"]
+)
+

@@ -1,0 +1,16 @@
+{
+"hba1c": {
+"normal_max": 5.6,
+"prediabetic_max": 6.4
+},
+
+"fasting_glucose": {
+"normal_max": 99,
+"prediabetic_max": 125
+},
+
+"ldl": {
+"optimal_max": 99,
+"borderline_max": 159
+}
+}
