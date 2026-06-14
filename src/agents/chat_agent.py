@@ -39,7 +39,7 @@ class ChatAgent:
         score = (
             search_result["score"]
         )
-
+        print(f"Retrieval Score: {score}")
         # Confidence Threshold
         if score > 2.0:
 
