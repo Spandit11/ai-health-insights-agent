@@ -1,11 +1,15 @@
 import json
 
-from langgraph.graph import StateGraph, START, END
+from langgraph.graph import (
+    StateGraph,
+    START,
+    END
+)
 
 from workflows.health_state import HealthState
 from utils.skill_loader import load_skill
 from services.ai_service import AIService
-
+from services.health_validator import HealthValidator
 
 def metric_extraction_node(state: HealthState):
     ai_service = AIService()
@@ -21,8 +25,7 @@ def metric_extraction_node(state: HealthState):
 
     response = ai_service.generate_response(prompt)
 
-    print("\nRAW RESPONSE:\n")
-    print(response)
+
 
     try:
         cleaned_response = (
@@ -42,6 +45,22 @@ def metric_extraction_node(state: HealthState):
 
     return {"metrics": metrics}
 
+def validation_node(
+    state: HealthState
+):
+
+    validator = HealthValidator()
+
+    validated_metrics = (
+        validator.validate(
+            state["metrics"]
+        )
+    )
+
+    return {
+        "validated_metrics":
+        validated_metrics
+    }
 
 def analysis_node(state: HealthState):
     ai_service = AIService()
@@ -122,13 +141,15 @@ def build_workflow():
     graph = StateGraph(HealthState)
 
     graph.add_node("metric_extraction", metric_extraction_node)
+    graph.add_node("validation",validation_node)
     graph.add_node("analysis", analysis_node)
     graph.add_node("risk", risk_node)
     graph.add_node("recommendation", recommendation_node)
     graph.add_node("summary", summary_node)
 
     graph.add_edge(START, "metric_extraction")
-    graph.add_edge("metric_extraction", "analysis")
+    graph.add_edge("metric_extraction","validation")
+    graph.add_edge("validation","analysis")
     graph.add_edge("analysis", "risk")
     graph.add_edge("risk", "recommendation")
     graph.add_edge("recommendation", "summary")

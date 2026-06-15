@@ -40,4 +40,7 @@ print("\n=== METRICS ===\n")
 print(
 result["metrics"]
 )
-
+print("\n=== VALIDATED METRICS ===\n")
+print(
+    result["validated_metrics"]
+)

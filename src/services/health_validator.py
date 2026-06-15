@@ -1,13 +1,13 @@
 import json
 from pathlib import Path
 
+
 class HealthValidator:
 
     def __init__(self):
 
         data_path = (
-            Path(__file__)
-            .parent.parent
+            Path(__file__).parent.parent
             / "data"
             / "health_reference.json"
         )
@@ -21,108 +21,92 @@ class HealthValidator:
                 f
             )
 
-def validate(
-    self,
-    metrics
-):
+    def validate(
+        self,
+        metrics
+    ):
 
-    result = {}
+        result = {}
 
-    hba1c = metrics.get(
-        "hba1c"
-    )
-
-    if hba1c is not None:
-
-        if hba1c <= self.reference[
+        hba1c = metrics.get(
             "hba1c"
-        ][
-            "normal_max"
-        ]:
+        )
 
-            status = "Normal"
+        if hba1c is not None:
 
-        elif hba1c <= self.reference[
-            "hba1c"
-        ][
-            "prediabetic_max"
-        ]:
+            if hba1c <= self.reference[
+                "hba1c"
+            ]["normal_max"]:
 
-            status = "Pre-Diabetic"
+                status = "Normal"
 
-        else:
+            elif hba1c <= self.reference[
+                "hba1c"
+            ]["prediabetic_max"]:
 
-            status = "Diabetic"
+                status = "Pre-Diabetic"
 
-        result["hba1c"] = {
-            "value": hba1c,
-            "status": status
-        }
+            else:
 
-    fasting_glucose = metrics.get(
-        "fasting_glucose"
-    )
+                status = "Diabetic"
 
-    if fasting_glucose is not None:
+            result["hba1c"] = {
+                "value": hba1c,
+                "status": status
+            }
 
-        if fasting_glucose <= self.reference[
+        fasting_glucose = metrics.get(
             "fasting_glucose"
-        ][
-            "normal_max"
-        ]:
+        )
 
-            status = "Normal"
+        if fasting_glucose is not None:
 
-        elif fasting_glucose <= self.reference[
-            "fasting_glucose"
-        ][
-            "prediabetic_max"
-        ]:
+            if fasting_glucose <= self.reference[
+                "fasting_glucose"
+            ]["normal_max"]:
 
-            status = "Pre-Diabetic"
+                status = "Normal"
 
-        else:
+            elif fasting_glucose <= self.reference[
+                "fasting_glucose"
+            ]["prediabetic_max"]:
 
-            status = "Diabetic"
+                status = "Pre-Diabetic"
 
-        result[
-            "fasting_glucose"
-        ] = {
-            "value":
-            fasting_glucose,
-            "status":
-            status
-        }
+            else:
 
-    ldl = metrics.get(
-        "ldl"
-    )
+                status = "Diabetic"
 
-    if ldl is not None:
+            result["fasting_glucose"] = {
+                "value": fasting_glucose,
+                "status": status
+            }
 
-        if ldl <= self.reference[
+        ldl = metrics.get(
             "ldl"
-        ][
-            "optimal_max"
-        ]:
+        )
 
-            status = "Optimal"
+        if ldl is not None:
 
-        elif ldl <= self.reference[
-            "ldl"
-        ][
-            "borderline_max"
-        ]:
+            if ldl <= self.reference[
+                "ldl"
+            ]["optimal_max"]:
 
-            status = "Borderline High"
+                status = "Optimal"
 
-        else:
+            elif ldl <= self.reference[
+                "ldl"
+            ]["borderline_max"]:
 
-            status = "High"
+                status = "Borderline High"
 
-        result["ldl"] = {
-            "value": ldl,
-            "status": status
-        }
+            else:
 
-    return result
+                status = "High"
+
+            result["ldl"] = {
+                "value": ldl,
+                "status": status
+            }
+
+        return result
