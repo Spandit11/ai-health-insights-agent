@@ -66,13 +66,11 @@ def analysis_node(state: HealthState):
     ai_service = AIService()
     skill = load_skill("analysis_skill.md")
     prompt = f"""
-    ```
-
     {skill}
 
-    Health Report:
+    Validated Metrics:
 
-    {state["report_text"]}
+    {state["validated_metrics"]}
     """
 
     analysis = ai_service.generate_response(prompt)
